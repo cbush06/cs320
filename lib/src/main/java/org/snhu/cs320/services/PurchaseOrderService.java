@@ -6,16 +6,18 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.snhu.cs320.entities.PurchaseOrder;
-import static org.snhu.cs320.validations.EntityValidator.validateAndDoOrThrow;
+import org.snhu.cs320.validations.EntityValidator;
 
 public class PurchaseOrderService {
 	
 	static PurchaseOrderService INSTANCE;
 	
 	final Map<String, PurchaseOrder> entityRepository;
+	final EntityValidator validator;
 	
 	private PurchaseOrderService() {
 		entityRepository = new ConcurrentHashMap<>();
+		this.validator = new EntityValidator();
 	}
 	
 	public static synchronized PurchaseOrderService getInstance() {
@@ -28,7 +30,7 @@ public class PurchaseOrderService {
 	public PurchaseOrder create(final PurchaseOrder purchaseOrder) {
 		Objects.requireNonNull(purchaseOrder);
 		
-		return validateAndDoOrThrow(
+		return validator.validateAndDoOrThrow(
 				purchaseOrder,
 				p -> {
 					if(entityRepository.containsKey(purchaseOrder.purchaseId())) {

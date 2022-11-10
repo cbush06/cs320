@@ -12,9 +12,17 @@ import jakarta.validation.Validator;
 
 public class EntityValidator {
 	
-	private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+	private final Validator validator;
 	
-	public static <T> T validateAndDoOrThrow(final T entity, final Function<T, T> action) {
+	public EntityValidator() {
+		this(Validation.buildDefaultValidatorFactory().getValidator());
+	}
+	
+	public EntityValidator(final Validator validator) {
+		this.validator = validator;
+	}
+	
+	public <T> T validateAndDoOrThrow(final T entity, final Function<T, T> action) {
 		final List<String> violations = validate(entity);
 		
 		if(violations.isEmpty()) {
@@ -30,7 +38,7 @@ public class EntityValidator {
 		throw new ValidationException(errorMessage);
 	}
 	
-	public static <T> List<String> validate(final T entity) {
+	public <T> List<String> validate(final T entity) {
 		final Set<ConstraintViolation<T>> errors = validator.validate(entity);
 		return errors.stream()
 				.map(ConstraintViolation::getMessage)
