@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ContactService {
 	
-	private static Map<String, Contact> CONTACT_DATABASE = new ConcurrentHashMap<String, Contact>();
+	static Map<String, Contact> CONTACT_DATABASE = new ConcurrentHashMap<String, Contact>();
 	
 	private ContactService() {}
 	
