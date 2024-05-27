@@ -21,7 +21,7 @@ public class Contact {
 		validate();
 	}
 	
-	public void validate() {
+	void validate() {
 		// ID
 		Validation.validateNotBlank(id, "id");
 		Validation.validateLength(id, "id", 1, 10);

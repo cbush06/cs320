@@ -1,5 +1,7 @@
 package org.snhu.cs320.validation;
 
+import java.time.LocalDate;
+
 import org.snhu.cs320.exceptions.ValidationException;
 
 public class Validation {
@@ -27,8 +29,14 @@ public class Validation {
 	}
 	
 	public static void validateNumeric(String input, String label) {
-		if (input.matches("\\D+")) {
+		if (input.matches(".*\\D+.*")) {
 			throw new ValidationException(label + " must only contain digits");
+		}
+	}
+	
+	public static void validateIsPresentOrFuture(LocalDate date, String label) {
+		if (date.isBefore(LocalDate.now())) {
+			throw new ValidationException(label + " cannot be in the past");
 		}
 	}
 	
