@@ -5,11 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
+import org.snhu.cs320.exceptions.ValidationException;
 
 public class AppointmentTest {
 	
 	@Test
-	void testSuccessPath() {
+	void testSuccessPath() throws ValidationException {
 		Appointment appt = new Appointment("1", LocalDate.now(), "Description");
 		assertThat(appt)
 			.isNotNull()

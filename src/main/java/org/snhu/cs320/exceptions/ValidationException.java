@@ -1,6 +1,6 @@
 package org.snhu.cs320.exceptions;
 
-public class ValidationException extends RuntimeException {
+public class ValidationException extends Exception {
 
 	private static final long serialVersionUID = -2856119686187590091L;
 

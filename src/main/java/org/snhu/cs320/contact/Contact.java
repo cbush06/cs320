@@ -1,5 +1,6 @@
 package org.snhu.cs320.contact;
 
+import org.snhu.cs320.exceptions.ValidationException;
 import org.snhu.cs320.validation.Validation;
 
 public class Contact {
@@ -10,7 +11,7 @@ public class Contact {
 	private String phone;
 	private String address;
 	
-	public Contact(String id, String firstName, String lastName, String phone, String address) {
+	public Contact(String id, String firstName, String lastName, String phone, String address) throws ValidationException {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -21,7 +22,7 @@ public class Contact {
 		validate();
 	}
 	
-	void validate() {
+	void validate() throws ValidationException {
 		// ID
 		Validation.validateNotBlank(id, "id");
 		Validation.validateLength(id, "id", 1, 10);

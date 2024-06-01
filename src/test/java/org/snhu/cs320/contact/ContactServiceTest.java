@@ -15,7 +15,7 @@ class ContactServiceTest {
 	}
 
 	@Test
-	void addSuccess() {
+	void addSuccess() throws ValidationException {
 		Contact contact = new Contact("12345", "First", "Last", "5553334444", "1234 Loblolly Lane");
 		ContactService.add(contact);
 		assertThat(ContactService.CONTACT_DATABASE)
@@ -23,7 +23,7 @@ class ContactServiceTest {
 	}
 	
 	@Test
-	void delete() {
+	void delete() throws ValidationException {
 		ContactService.add(new Contact("12345", "First", "Last", "5553334444", "1234 Loblolly Lane"));
 		ContactService.delete("12345");
 		assertThat(ContactService.CONTACT_DATABASE)
@@ -31,7 +31,7 @@ class ContactServiceTest {
 	}
 	
 	@Test
-	void updateSuccess() {
+	void updateSuccess() throws ValidationException {
 		ContactService.add(new Contact("12345", "First", "Last", "5553334444", "1234 Loblolly Lane"));
 		
 		Contact updated = new Contact("12345", "First", "Last", "2229995555", "1234 Loblolly Lane");
@@ -43,7 +43,7 @@ class ContactServiceTest {
 	}
 	
 	@Test
-	void updateFail() {
+	void updateFail() throws ValidationException {
 		ContactService.add(new Contact("12345", "First", "Last", "5553334444", "1234 Loblolly Lane"));
 		
 		Contact updated = new Contact("12345", "First", "Last", "2229995555", "1234 Loblolly Lane");

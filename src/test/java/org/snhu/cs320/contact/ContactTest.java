@@ -11,7 +11,7 @@ import org.snhu.cs320.exceptions.ValidationException;
 class ContactTest {
 
 	@Test
-	void testSuccessPath() {
+	void testSuccessPath() throws ValidationException {
 		Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
 		assertThat(contact)
 			.isNotNull()
