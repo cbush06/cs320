@@ -31,8 +31,6 @@ public class ContactService {
 		existing.setPhone(updated.getPhone());
 		existing.setAddress(updated.getAddress());
 		
-		existing.validate();
-		
 		return true;
 	}
 	

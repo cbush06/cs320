@@ -24,28 +24,31 @@ class ContactTest {
 	
 	@ParameterizedTest
 	@CsvSource({
-		"'',First,Last,5553334444,1234 Loblolly Lane", // Blank ID
-		",First,Last,5553334444,1234 Loblolly Lane", // Null ID
-		"12345678901,First,Last,5553334444,1234 Loblolly Lane", // Too Long ID
-		"12345,'',Last,5553334444,1234 Loblolly Lane", // Blank First Name
-		"12345,,Last,5553334444,1234 Loblolly Lane", // Null First Name
-		"12345,FirstFirstF,Last,5553334444,1234 Loblolly Lane", // Too Long First Name
-		"12345,First,'',5553334444,1234 Loblolly Lane", // Blank Last Name
-		"12345,First,,5553334444,1234 Loblolly Lane", // Null Last Name
-		"12345,First,LastLastLas,5553334444,1234 Loblolly Lane", // Too Long Last Name
-		"12345,First,Last,'',1234 Loblolly Lane", // Blank Phone
-		"12345,First,Last,,1234 Loblolly Lane", // Null Phone
-		"12345,First,Last,55533344449,1234 Loblolly Lane", // Too Long Phone
-		"12345,First,Last,555333444A,1234 Loblolly Lane", // Phone with Letters
-		"12345,First,Last,555333-444,1234 Loblolly Lane", // Phone with Punctuation
-		"12345,First,Last,555333 444,1234 Loblolly Lane", // Phone with Spaces
-		"12345,First,Last,5553334444,''", // Blank Address
-		"12345,First,Last,5553334444,", // Null Address
-		"12345,First,Last,5553334444,1234 Loblolly Lane 1234 Lobloll", // Too Long Address
+		"'',First,Last,5553334444,1234 Loblolly Lane,id must not be blank", // Blank ID
+		",First,Last,5553334444,1234 Loblolly Lane,id must not be null", // Null ID
+		"12345678901,First,Last,5553334444,1234 Loblolly Lane,id must be at least 1 and no greater than 10 characters in length", // Too Long ID
+		"12345,'',Last,5553334444,1234 Loblolly Lane,firstName must not be blank", // Blank First Name
+		"12345,,Last,5553334444,1234 Loblolly Lane,firstName must not be null", // Null First Name
+		"12345,FirstFirstF,Last,5553334444,1234 Loblolly Lane,firstName must be at least 1 and no greater than 10 characters in length", // Too Long First Name
+		"12345,First,'',5553334444,1234 Loblolly Lane,lastName must not be blank", // Blank Last Name
+		"12345,First,,5553334444,1234 Loblolly Lane,lastName must not be null", // Null Last Name
+		"12345,First,LastLastLas,5553334444,1234 Loblolly Lane,lastName must be at least 1 and no greater than 10 characters in length", // Too Long Last Name
+		"12345,First,Last,'',1234 Loblolly Lane,phone must not be blank", // Blank Phone
+		"12345,First,Last,,1234 Loblolly Lane,phone must not be null", // Null Phone
+		"12345,First,Last,55533344449,1234 Loblolly Lane,phone must be at least 10 and no greater than 10 characters in length", // Too Long Phone
+		"12345,First,Last,555333444A,1234 Loblolly Lane,phone must only contain digits", // Phone with Letters
+		"12345,First,Last,555333-444,1234 Loblolly Lane,phone must only contain digits", // Phone with Punctuation
+		"12345,First,Last,555333 444,1234 Loblolly Lane,phone must only contain digits", // Phone with Spaces
+		"12345,First,Last,5553334444,'',address must not be blank", // Blank Address
+		"12345,First,Last,5553334444,,address must not be null", // Null Address
+		"12345,First,Last,5553334444,1234 Loblolly Lane 1234 Lobloll,address must be at least 1 and no greater than 30 characters in length", // Too Long Address
 	})
-	void invalidIdThrowsException() {
-		assertThatThrownBy(() -> new Contact("", "First", "Last", "5553334444", "1234 Loblolly Lane"))
-			.isInstanceOf(ValidationException.class);
+	void invalidIdThrowsException(String id, String firstName, String lastName, String phone, String address, String message) {
+		assertThatThrownBy(() -> new Contact(id, firstName, lastName, phone, address))
+			.isInstanceOf(ValidationException.class)
+			.hasMessage(message);
 	}
+	
+	
 
 }
