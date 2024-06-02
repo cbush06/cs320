@@ -11,7 +11,7 @@ import org.snhu.cs320.exceptions.ValidationException;
 class ContactTest {
 
 	@Test
-	void testSuccessPath() throws ValidationException {
+	void testSuccessfulCreation() throws ValidationException {
 		Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
 		assertThat(contact)
 			.isNotNull()
@@ -43,12 +43,80 @@ class ContactTest {
 		"12345,First,Last,5553334444,,address must not be null", // Null Address
 		"12345,First,Last,5553334444,1234 Loblolly Lane 1234 Lobloll,address must be at least 1 and no greater than 30 characters in length", // Too Long Address
 	})
-	void invalidIdThrowsException(String id, String firstName, String lastName, String phone, String address, String message) {
+	void testFailedCreation(String id, String firstName, String lastName, String phone, String address, String message) {
 		assertThatThrownBy(() -> new Contact(id, firstName, lastName, phone, address))
 			.isInstanceOf(ValidationException.class)
 			.hasMessage(message);
 	}
 	
-	
+    @Test
+	void testSuccessfulSetters() throws ValidationException {
+		Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
+        contact.setFirstName("Bob");
+        contact.setLastName("Ross");
+        contact.setPhone("3339991111");
+        contact.setAddress("1234 Painter Lane");
+
+        assertThat(contact)
+            .hasFieldOrPropertyWithValue("firstName", "Bob")
+            .hasFieldOrPropertyWithValue("lastName", "Ross")
+            .hasFieldOrPropertyWithValue("phone", "3339991111")
+            .hasFieldOrPropertyWithValue("address", "1234 Painter Lane");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "'',firstName must not be blank", // Blank First Name
+		",firstName must not be null", // Null First Name
+		"FirstFirstF,firstName must be at least 1 and no greater than 10 characters in length", // Too Long First Name
+    })
+    void testSettingFirstName(String firstName, String message) throws ValidationException {
+        Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
+        assertThatThrownBy(() -> contact.setFirstName(firstName))
+            .isInstanceOf(ValidationException.class)
+            .hasMessage(message);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "'',lastName must not be blank", // Blank Last Name
+		",lastName must not be null", // Null Last Name
+		"LastLastLas,lastName must be at least 1 and no greater than 10 characters in length", // Too Long Last Name
+    })
+    void testSettingLastName(String lastName, String message) throws ValidationException {
+        Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
+        assertThatThrownBy(() -> contact.setLastName(lastName))
+            .isInstanceOf(ValidationException.class)
+            .hasMessage(message);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "'',phone must not be blank", // Blank Phone
+		",phone must not be null", // Null Phone
+		"55533344449,phone must be at least 10 and no greater than 10 characters in length", // Too Long Phone
+		"555333444A,phone must only contain digits", // Phone with Letters
+		"555333-444,phone must only contain digits", // Phone with Punctuation
+		"555333 444,phone must only contain digits", // Phone with Spaces
+    })
+    void testSettingPhone(String phone, String message) throws ValidationException {
+        Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
+        assertThatThrownBy(() -> contact.setPhone(phone))
+            .isInstanceOf(ValidationException.class)
+            .hasMessage(message);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+		"'',address must not be blank", // Blank Address
+		",address must not be null", // Null Address
+		"1234 Loblolly Lane 1234 Lobloll,address must be at least 1 and no greater than 30 characters in length", // Too Long Address
+    })
+    void testSettingAddress(String address, String message) throws ValidationException {
+        Contact contact = new Contact("1", "First", "Last", "5553334444", "1234 Loblolly Lane");
+        assertThatThrownBy(() -> contact.setAddress(address))
+            .isInstanceOf(ValidationException.class)
+            .hasMessage(message);
+    }
 
 }
