@@ -6,28 +6,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.snhu.cs320.exceptions.ValidationException;
 
 public class ContactService {
+
+    private static ContactService INSTANCE;
 	
-	static Map<String, Contact> CONTACT_DATABASE;
+	Map<String, Contact> database = new ConcurrentHashMap<>();
 	
 	private ContactService() {}
 
-    public static synchronized Map<String, Contact> getInstance() {
-        if (CONTACT_DATABASE == null) {
-            CONTACT_DATABASE = new ConcurrentHashMap<String, Contact>();
+    public static synchronized ContactService getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ContactService();
         }
-        return CONTACT_DATABASE;
+        return INSTANCE;
     }
 	
-	public static boolean add(Contact contact) {
-		return getInstance().putIfAbsent(contact.getId(), contact) == null;
+	public boolean add(Contact contact) {
+		return database.putIfAbsent(contact.getId(), contact) == null;
 	}
 	
-	public static boolean delete(String id) {
-		return getInstance().remove(id) != null;
+	public boolean delete(String id) {
+		return database.remove(id) != null;
 	}
 	
-	public static boolean update(String id, Contact updated) throws ValidationException {
-		Contact existing = getInstance().get(id);
+	public boolean update(String id, Contact updated) throws ValidationException {
+		Contact existing = database.get(id);
 		
 		if (existing == null) return false;
 		
