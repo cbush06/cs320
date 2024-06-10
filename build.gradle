@@ -10,6 +10,7 @@ plugins {
     id 'application'
     id 'java'
     id 'eclipse'
+    id "com.diffplug.spotless" version "7.0.0.BETA1"
 }
 
 repositories {
@@ -41,4 +42,13 @@ application {
 test {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+spotless {
+  java {
+    importOrder()
+    target 'src/*/java/**/*.java'
+    prettier(['prettier': '2.8.8', 'prettier-plugin-java': '2.2.0'])
+        .config(['parser': 'java', 'tabWidth': 4])
+  }
 }
