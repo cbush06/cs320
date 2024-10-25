@@ -1,6 +1,6 @@
 # CS320 - Software Testing, Automation, and Quality Assurance
 
-This project accompanies a video series created to help my Southern New Hampshire University CS320 class.
+This project accompanies aaddd video series created to help my Southern New Hampshire University CS320 class.
 
 If you want to follow along with the video series (highly encouraged), clone the `starter` branch. The `master` branch is the end result of the video series.
 
